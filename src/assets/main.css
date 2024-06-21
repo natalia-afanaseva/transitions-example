@@ -62,7 +62,9 @@ main {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .child-view {
+  .child-view,
+  ::view-transition-old(main-animated),
+  ::view-transition-new(main-animated) {
     animation: none;
   }
 }

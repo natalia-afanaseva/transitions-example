@@ -30,16 +30,19 @@ async function tryViewAPITransition(
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) {
-  if (isViewTransitionAPISupported.value) {
-    // With View Transitions:
-    const transition = document.startViewTransition(() => doVueOwnTransition(to, from, next))
+  const isReduced = window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true
+  if (!isReduced) {
+    if (isViewTransitionAPISupported.value) {
+      // With View Transitions:
+      const transition = document.startViewTransition(() => doVueOwnTransition(to, from, next))
 
-    transition.finished.then(() => {
-      console.log('finished!')
-    })
-  } else {
-    // Fallback for browsers that don't support View Transitions:
-    doVueOwnTransition(to, from)
+      transition.finished.then(() => {
+        console.log('finished!')
+      })
+    } else {
+      // Fallback for browsers that don't support View Transitions:
+      doVueOwnTransition(to, from)
+    }
   }
 
   next()
