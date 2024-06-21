@@ -15,6 +15,42 @@ a,
   padding: 3px;
 }
 
+.child-view {
+  position: absolute;
+}
+
+main {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+}
+
+.slide-left-enter,
+.slide-right-leave-active {
+  animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-left;
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+  animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-right;
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    -webkit-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+}
+
+@keyframes slide-right {
+  to {
+    opacity: 0;
+    -webkit-transform: translate(-30px, 0);
+    transform: translate(-30px, 0);
+  }
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
@@ -27,9 +63,7 @@ a,
     place-items: center;
   }
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+  main {
+    width: 50vw;
   }
 }
