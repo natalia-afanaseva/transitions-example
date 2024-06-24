@@ -1,14 +1,9 @@
 <template>
-  <RouterView v-if="isViewTransitionAPISupported" class="child-view" />
-  <RouterView v-slot="{ Component }" v-else>
-    <transition :name="transitionName">
-      <component class="child-view" :is="Component" />
-    </transition>
-  </RouterView>
+  <component :is="getComponent()" :transitionName="transitionName"></component>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, defineAsyncComponent } from 'vue'
 import {
   NavigationGuardNext,
   onBeforeRouteUpdate,
@@ -18,6 +13,17 @@ import {
 
 const transitionName = ref('slide-left')
 const isViewTransitionAPISupported = ref(false)
+
+const ViewTransition = defineAsyncComponent(
+  () => import('../components/router-views/view-transition.vue')
+)
+const VueTransition = defineAsyncComponent(
+  () => import('../components/router-views/vue-transition.vue')
+)
+
+function getComponent() {
+  return document.startViewTransition ? ViewTransition : VueTransition
+}
 
 function doVueOwnTransition(to: RouteLocationNormalized, from: RouteLocationNormalized) {
   const toDepth = to.path.split('/').length
